@@ -19,20 +19,19 @@ func NewFamilyTreeCaseDao(db *gorm.DB) *FamilyTreeCaseDao {
 	}
 }
 
-func (d *FamilyTreeCaseDao) Create() error {
+func (d *FamilyTreeCaseDao) Create(arg *model.FamilyTreeBase) error {
+	return d.db.Table("").Create(arg).Error
 
-	return nil
 }
 
 func (d *FamilyTreeCaseDao) Delete(arg *params.ArgFamilyTree) error {
 	return nil
 }
 
-func (d *FamilyTreeCaseDao) UpdateBackupStatus(id, status string) error {
-	return d.db.Table("dy_project_case").Where("id = ?", id).Update("backup_status", status).Error
+func (d *FamilyTreeCaseDao) Update(id, status string) error {
+	return nil
 }
 
 func (d *FamilyTreeCaseDao) BackupList() error {
-
 	return nil
 }

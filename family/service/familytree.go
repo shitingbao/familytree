@@ -1,11 +1,9 @@
 package service
 
-// DyProjectCaseCreate 批量导入
-// 导入kol自动填充部分信息
-func (s *Service) DyProjectCaseCreate() error {
-	// param := []*params.ArgDyProjectCase{}
+import "familytree/family/model"
 
-	if err := s.dao.FamilyTree.Create(); err != nil {
+func (s *Service) DyProjectCaseCreate() error {
+	if err := s.dao.FamilyTree.Create(&model.FamilyTreeBase{}); err != nil {
 		return err
 	}
 
