@@ -1,0 +1,10 @@
+[auth]
+    host = "localhost"
+    port = 3331
+[openapi]
+    [openapi.mgcc]
+        host = "localhost"
+        port = 3332
+    [openapi.ocean]
+        host = "localhost"
+        port = 3333
