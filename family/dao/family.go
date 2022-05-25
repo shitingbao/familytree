@@ -35,6 +35,14 @@ func (d *FamilyTreeCaseDao) Update(arg *params.ArgMemeber) error {
 	return d.Data.DB().Table("member").Where("id", arg.ID).Updates(arg).Error
 }
 
-func (d *FamilyTreeCaseDao) BackupList() error {
-	return nil
+func (d *FamilyTreeCaseDao) MemberList(arg *params.ArgMemeber) ([]model.Member, error) {
+	list := []model.Member{}
+	db := d.Data.DB().Table("member")
+	if arg.ID == "" {
+		db = db.Where("parent_id is null")
+	} else {
+		db = db.Where("parent_id", arg.ID)
+	}
+	err := db.Scan(&list).Error
+	return list, err
 }

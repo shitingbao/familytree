@@ -49,3 +49,17 @@ func FamilytreeDelete(ctx *gin.Context) {
 	}
 	response.ApiSuccess(ctx)
 }
+
+func FamilytreeList(ctx *gin.Context) {
+	arg := &params.ArgMemeber{}
+	if err := ctx.Bind(&arg); err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	list, err := Svc.FamilytreeList(arg)
+	if err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	response.ApiSuccess(ctx, list)
+}

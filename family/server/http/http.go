@@ -31,6 +31,7 @@ func setupInnerEngine(e *gin.Engine) {
 		g.POST("/member/create", FamilytreeCreate)
 		g.POST("/member/update", FamilytreeUpdate)
 		g.POST("/member/delete", FamilytreeDelete)
+		g.POST("/member/list", FamilytreeList)
 
 	}
 
