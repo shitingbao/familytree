@@ -6,13 +6,16 @@ import (
 )
 
 type Service struct {
-	c   *conf.Config
-	dao *dao.Dao
+	c          *conf.Config
+	dao        *dao.Data
+	Familytree *dao.FamilyTreeCaseDao
 }
 
 func New(conf *conf.Config) *Service {
+	d := dao.NewDao(conf)
 	return &Service{
-		c:   conf,
-		dao: dao.NewDao(conf),
+		c:          conf,
+		dao:        d,
+		Familytree: dao.NewFamilyTreeCaseDao(d),
 	}
 }

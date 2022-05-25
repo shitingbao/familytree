@@ -4,32 +4,35 @@ import (
 	"familytree/family/model"
 	"familytree/family/params"
 
-	"gorm.io/gorm"
+	"github.com/pborman/uuid"
+)
+
+var (
+	isDeletedYes = 1
 )
 
 type FamilyTreeCaseDao struct {
-	*CurdDao
+	Data *Data
 }
 
-func NewFamilyTreeCaseDao(db *gorm.DB) *FamilyTreeCaseDao {
+func NewFamilyTreeCaseDao(da *Data) *FamilyTreeCaseDao {
 	return &FamilyTreeCaseDao{
-		NewCurdDao(db, func() interface{} {
-			return new(model.FamilyTreeBase)
-		}),
+		Data: da,
 	}
 }
 
-func (d *FamilyTreeCaseDao) Create(arg *model.FamilyTreeBase) error {
-	return d.db.Table("").Create(arg).Error
-
+func (d *FamilyTreeCaseDao) Create(arg *model.Member) error {
+	arg.ID = uuid.New()
+	return d.Data.db.Table("member").Create(arg).Error
 }
 
-func (d *FamilyTreeCaseDao) Delete(arg *params.ArgFamilyTree) error {
-	return nil
+///
+func (d *FamilyTreeCaseDao) Delete(arg *params.ArgMemeber) error {
+	return d.Data.DB().Table("member").Where("id", arg.ID).Update("is_deleted", isDeletedYes).Error
 }
 
-func (d *FamilyTreeCaseDao) Update(id, status string) error {
-	return nil
+func (d *FamilyTreeCaseDao) Update(arg *params.ArgMemeber) error {
+	return d.Data.DB().Table("member").Where("id", arg.ID).Updates(arg).Error
 }
 
 func (d *FamilyTreeCaseDao) BackupList() error {

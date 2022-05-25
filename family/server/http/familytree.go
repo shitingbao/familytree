@@ -1,30 +1,51 @@
 package http
 
 import (
-	"net/http"
-
+	"familytree/family/lib/response"
+	"familytree/family/model"
 	"familytree/family/params"
 
 	"github.com/gin-gonic/gin"
 )
 
-func DyProjectCaseCreate(ctx *gin.Context) {
-	arg := &params.ArgFamilyTree{}
+func FamilytreeCreate(ctx *gin.Context) {
+	arg := &model.Member{}
 	if err := ctx.Bind(&arg); err != nil {
+		response.ApiFailed(ctx, err)
 		return
 	}
-
-	err := Svc.DyProjectCaseCreate()
-
+	err := Svc.FamilytreeCreate(arg)
 	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{
-			"code": 10001,
-			"msg":  err.Error(),
-		})
+		response.ApiFailed(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 10000,
-		"msg":  "ok",
-	})
+	response.ApiSuccess(ctx)
+}
+
+func FamilytreeUpdate(ctx *gin.Context) {
+	arg := &params.ArgMemeber{}
+	if err := ctx.Bind(&arg); err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	err := Svc.FamilytreeUpdate(arg)
+	if err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	response.ApiSuccess(ctx)
+}
+
+func FamilytreeDelete(ctx *gin.Context) {
+	arg := &params.ArgMemeber{}
+	if err := ctx.Bind(&arg); err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	err := Svc.FamilytreeDelete(arg)
+	if err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	response.ApiSuccess(ctx)
 }

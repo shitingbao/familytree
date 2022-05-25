@@ -7,26 +7,30 @@ import (
 	"gorm.io/gorm"
 )
 
-type Dao struct {
+type Data struct {
 	c  *conf.Config
 	db *gorm.DB
-
-	FamilyTree *FamilyTreeCaseDao
 }
 
 func OpenDao(conf *conf.Config) (dao *gorm.DB, err error) {
 	return gorm.Open(postgres.Open(conf.DB.Host), &gorm.Config{})
 }
 
-func NewDao(conf *conf.Config) *Dao {
+func NewDao(conf *conf.Config) *Data {
 	db, err := OpenDao(conf)
 	if err != nil {
 		panic(err)
 	}
 
-	return &Dao{
-		c:          conf,
-		db:         db,
-		FamilyTree: NewFamilyTreeCaseDao(db),
+	return &Data{
+		c:  conf,
+		db: db,
 	}
+}
+
+// 默认排除删除的数据
+func (d *Data) DB() *gorm.DB {
+	return d.db.Scopes(func(db *gorm.DB) *gorm.DB {
+		return db.Where("is_deleted=?", 0)
+	})
 }

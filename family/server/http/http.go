@@ -28,8 +28,9 @@ func setupInnerEngine(e *gin.Engine) {
 	g := e.Group("/v1")
 	{
 
-		g.POST("/detail/create", DyProjectCaseCreate)
-		g.GET("/detail/list", DyProjectCaseCreate)
+		g.POST("/member/create", FamilytreeCreate)
+		g.POST("/member/update", FamilytreeUpdate)
+		g.POST("/member/delete", FamilytreeDelete)
 
 	}
 
