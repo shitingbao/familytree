@@ -3,20 +3,9 @@ env = "dev"
 
 #数据库配置
 [db]
-    host = "sh-cdb-mr97xubq.sql.tencentcdb.com"
-    port = 61637
-    user = "root"
-    password = "DBCosmeapp607"
-    database = "wone_test"
-    log_mode = 4
+    host = "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 
 #http服务配置
 [http_svc]
     host = ""
     port = 6200
-
-[qbox]
-    access_key="-aKfqyfZnbb3w8IJZS1pneN8OljxOVnf1IdCNVTd"
-    secret_key="bbsm9-kyuAH_FkS8pSCmsE7Fb4OBaDr0UAA8F-9a"
-    bucket="10-images"
-    video_bucket="10-vdos"

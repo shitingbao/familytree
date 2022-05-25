@@ -22,3 +22,7 @@ type Redis struct {
 	Password string `toml:"password"`
 	DB       int    `toml:"db"`
 }
+
+type Postgresql struct {
+	Host string `toml:"host"`
+}
