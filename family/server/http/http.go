@@ -38,4 +38,9 @@ func setupInnerEngine(e *gin.Engine) {
 
 func origin(ctx *gin.Context) {
 	ctx.Header("Access-Control-Allow-Origin", "*")
+
+	// if ctx.Request.Method == "OPTIONS" {
+	// 	ctx.JSON(http.StatusOK, "ok")
+	// 	return
+	// }
 }

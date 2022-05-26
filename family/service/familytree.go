@@ -4,6 +4,7 @@ import (
 	"familytree/family/model"
 )
 
+// FamilytreeCreate 根据父节点构建一个新的子节点
 func (s *Service) FamilytreeCreate(arg *model.Member) error {
 	return s.Familytree.Create(arg)
 }

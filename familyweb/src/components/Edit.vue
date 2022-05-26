@@ -4,7 +4,6 @@
     v-bind="layout"
     name="nest-messages"
     :validate-messages="validateMessages"
-    @finish="onFinish"
   >
     <a-form-item
       :name="['user', 'name']"
@@ -36,6 +35,15 @@
     <a-form-item label="荣誉">
       <a-textarea v-model:value="formState.honor" />
     </a-form-item>
+    <div class="foot">
+      <a-button class="btn" type="primary" @click="updateMemeber">
+        提交修改
+      </a-button>
+      <a-button class="btn" type="primary" @click="addChild">
+        增加子节点
+      </a-button>
+      <a-button type="primary" @click="deleteMember">删除节点</a-button>
+    </div>
   </a-form>
 </template>
 
@@ -74,18 +82,53 @@ const validateMessages = {
   },
 };
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
+const emit = defineEmits(["visible"]);
 
-const showModal = () => {
-  visible.value = true;
-};
+function updateMemeber() {
+  axios
+    .post("http://localhost:6200/v1/member/update", formState.value, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    })
+    .then((response) => {
+      console.log(response);
+      // formState.value.getHeader(response.data.data);
+      // console.log(" response.data response.data", response.data);
+      emit("visible");
+    });
+}
 
-const handleOk = (e: MouseEvent) => {
-  console.log(e);
-  visible.value = false;
-};
+function addChild() {
+  const formData = new FormData();
+  formData.append("name", "son");
+  formData.append("parentId", formState.value.id + "");
+
+  // 新的路径等于父节点路径加上父节点id，注意第一个节点为空
+  const newPath = formState.value.path == "" ? "" : formState.value.path + ",";
+  formData.append("path", newPath + formState.value.id);
+  axios
+    .post("http://localhost:6200/v1/member/create", formData)
+    .then((response) => {
+      // formState.value.getHeader(response.data.data);
+      console.log(response);
+      emit("visible");
+    });
+}
+
+function deleteMember() {
+  const formData = new FormData();
+  formData.append("id", formState.value.id + "");
+
+  axios
+    .post("http://localhost:6200/v1/member/delete", formData)
+    .then((response) => {
+      console.log(response);
+      // formState.value.getHeader(response.data.data);
+      emit("visible");
+    });
+}
 
 watch(
   () => props.row.id,
@@ -97,19 +140,14 @@ watch(
 </script>
 
 <style scoped>
-a {
-  color: #42b983;
+.foot {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
+.btn {
+  margin-right: 10px;
 }
 </style>

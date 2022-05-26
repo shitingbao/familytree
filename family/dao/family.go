@@ -23,9 +23,9 @@ func (d *FamilyTreeCaseDao) Create(arg *model.Member) error {
 	return d.Data.db.Table("member").Create(arg).Error
 }
 
-///
+// Delete 删除注意，删除本节点，以及对应后续子节点
 func (d *FamilyTreeCaseDao) Delete(arg *model.Member) error {
-	return d.Data.DB().Table("member").Where("id", arg.ID).Update("is_deleted", isDeletedYes).Error
+	return d.Data.DB().Table("member").Where("id = ? or path = ? or path like ?", arg.ID, strconv.Itoa(arg.ID), strconv.Itoa(arg.ID)+",%").Update("is_deleted", isDeletedYes).Error
 }
 
 func (d *FamilyTreeCaseDao) Update(arg *model.Member) error {
@@ -40,9 +40,11 @@ func (d *FamilyTreeCaseDao) MemberList(arg *model.Member) ([]model.Member, error
 	return list, err
 }
 
+// MemberLast 找到一棵完整的树
+// 注意节点前缀 比如 6和60
 func (d *FamilyTreeCaseDao) MemberLast(arg *model.Member) ([]model.Member, error) {
 	list := []model.Member{}
-	db := d.Data.DB().Debug().Table("member").Where("path like ? or id = ?", strconv.Itoa(arg.ID)+"%", arg.ID)
+	db := d.Data.DB().Debug().Table("member").Where("path like ? or id = ? or path = ?", strconv.Itoa(arg.ID)+",%", arg.ID, strconv.Itoa(arg.ID))
 	err := db.Scan(&list).Error
 	return list, err
 }

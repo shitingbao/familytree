@@ -47,7 +47,7 @@ export class Member {
 		})
 		if (rs.length > 0) {
 			rs.forEach((e) => {
-				console.log("for root:", root)
+				// console.log("for root:", root)
 				var node = new Member()
 				node.initData(e)
 				root.children.push(node)
