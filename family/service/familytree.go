@@ -19,3 +19,7 @@ func (s *Service) FamilytreeDelete(arg *model.Member) error {
 func (s *Service) FamilytreeList(arg *model.Member) ([]model.Member, error) {
 	return s.Familytree.MemberList(arg)
 }
+
+func (s *Service) FamilytreeLast(arg *model.Member) ([]model.Member, error) {
+	return s.Familytree.MemberLast(arg)
+}

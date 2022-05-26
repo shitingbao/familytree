@@ -62,3 +62,17 @@ func FamilytreeList(ctx *gin.Context) {
 	}
 	response.ApiSuccess(ctx, list)
 }
+
+func FamilytreeLast(ctx *gin.Context) {
+	arg := &model.Member{}
+	if err := ctx.Bind(&arg); err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	list, err := Svc.FamilytreeLast(arg)
+	if err != nil {
+		response.ApiFailed(ctx, err)
+		return
+	}
+	response.ApiSuccess(ctx, list)
+}

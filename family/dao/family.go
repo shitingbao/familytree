@@ -2,6 +2,7 @@ package dao
 
 import (
 	"familytree/family/model"
+	"strconv"
 )
 
 var (
@@ -35,6 +36,13 @@ func (d *FamilyTreeCaseDao) MemberList(arg *model.Member) ([]model.Member, error
 	list := []model.Member{}
 	db := d.Data.DB().Table("member").Where("parent_id", arg.ID)
 
+	err := db.Scan(&list).Error
+	return list, err
+}
+
+func (d *FamilyTreeCaseDao) MemberLast(arg *model.Member) ([]model.Member, error) {
+	list := []model.Member{}
+	db := d.Data.DB().Debug().Table("member").Where("path like ? or id = ?", strconv.Itoa(arg.ID)+"%", arg.ID)
 	err := db.Scan(&list).Error
 	return list, err
 }

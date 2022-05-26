@@ -28,7 +28,7 @@ export class Member {
 		this.placeDeath = row?.placeDeath;
 		this.content = row?.content;
 		this.honor = row?.honor;
-		this.children = row?.children
+		// this.children = row?.children
 	}
 
 	// 构造头节点
@@ -37,7 +37,7 @@ export class Member {
 			return e.parentId == 0
 		})
 		this.initData(root)
-		this.construct(root, rows)
+		this.construct(this, rows)
 	}
 
 	// 从反馈的所有节点里，构建基本树结构
@@ -47,6 +47,7 @@ export class Member {
 		})
 		if (rs.length > 0) {
 			rs.forEach((e) => {
+				console.log("for root:", root)
 				var node = new Member()
 				node.initData(e)
 				root.children.push(node)
