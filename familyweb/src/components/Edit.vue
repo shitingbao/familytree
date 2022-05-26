@@ -52,6 +52,7 @@ import { ref, onMounted, watch, PropType } from "vue";
 import { ManOutlined, WomanOutlined } from "@ant-design/icons-vue";
 import axios from "axios";
 import { Member } from "../model/member";
+import qs from "qs";
 
 const props = defineProps({
   row: {
@@ -85,19 +86,19 @@ const validateMessages = {
 const emit = defineEmits(["visible"]);
 
 function updateMemeber() {
-  axios
-    .post("http://localhost:6200/v1/member/update", formState.value, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-    .then((response) => {
-      console.log(response);
-      // formState.value.getHeader(response.data.data);
-      // console.log(" response.data response.data", response.data);
-      emit("visible");
-    });
+  axios({
+    method: "POST",
+    url: "http://localhost:6200/v1/member/update",
+    data: qs.stringify(formState.value),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  }).then((response) => {
+    console.log(response);
+    // formState.value.getHeader(response.data.data);
+    // console.log(" response.data response.data", response.data);
+    emit("visible");
+  });
 }
 
 function addChild() {

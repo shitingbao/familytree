@@ -3,6 +3,7 @@ package http
 import (
 	"familytree/family/lib/response"
 	"familytree/family/model"
+	"familytree/family/params"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +23,7 @@ func FamilytreeCreate(ctx *gin.Context) {
 }
 
 func FamilytreeUpdate(ctx *gin.Context) {
-	arg := &model.Member{}
+	arg := &params.ArgMember{}
 	if err := ctx.Bind(&arg); err != nil {
 		response.ApiFailed(ctx, err)
 		return

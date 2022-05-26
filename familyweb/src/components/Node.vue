@@ -45,8 +45,8 @@ const showModal = () => {
 
 function editClose() {
   console.log("editClose start");
-  location.reload();
   visible.value = false;
+  location.reload();
 }
 </script>
 

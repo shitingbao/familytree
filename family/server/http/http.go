@@ -24,7 +24,6 @@ func Init(c *conf.Config, s *service.Service) {
 }
 
 func setupInnerEngine(e *gin.Engine) {
-
 	g := e.Group("/v1").Use(origin)
 	{
 		g.POST("/member/create", FamilytreeCreate)
@@ -38,9 +37,8 @@ func setupInnerEngine(e *gin.Engine) {
 
 func origin(ctx *gin.Context) {
 	ctx.Header("Access-Control-Allow-Origin", "*")
-
-	// if ctx.Request.Method == "OPTIONS" {
-	// 	ctx.JSON(http.StatusOK, "ok")
-	// 	return
-	// }
+	ctx.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token, Authorization")
+	ctx.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	ctx.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
+	ctx.Header("Access-Control-Allow-Credentials", "true")
 }

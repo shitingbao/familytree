@@ -6,3 +6,4 @@ dist-ssr
 
 family/cmd/cmd
 launch.json
+__debug_bin

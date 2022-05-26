@@ -2,6 +2,7 @@ package service
 
 import (
 	"familytree/family/model"
+	"familytree/family/params"
 )
 
 // FamilytreeCreate 根据父节点构建一个新的子节点
@@ -9,7 +10,7 @@ func (s *Service) FamilytreeCreate(arg *model.Member) error {
 	return s.Familytree.Create(arg)
 }
 
-func (s *Service) FamilytreeUpdate(arg *model.Member) error {
+func (s *Service) FamilytreeUpdate(arg *params.ArgMember) error {
 	return s.Familytree.Update(arg)
 }
 
