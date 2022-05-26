@@ -10,39 +10,35 @@ export interface Portrait {
 }
 
 export interface IPerson {
-	firstName: string;
-	middleNames: Array<string>;
-	lastName: string;
-	gender: Gender | null;
-	portrait: Portrait | null;
-	dateOfBirth: string;
-	placeOfBirth: string;
-	dateOfMarriage: string;
-	placeOfMarriage: string;
-	dateOfDeath: string;
-	placeOfDeath: string;
-	parent: IPerson | null;
-	spouse: IPerson | null;
+	id: number
+	parentId: number
+	name: string;
+	path: string
+	sex: string
+	dateBirth: string;
+	dateMarry: string;
+	placeBirth: string;
+	dateDeath: string;
+	placeDeath: string;
+	content: string;
+	honor: string;
 	children: Array<IPerson>;
-	nodeCount: number;
 }
 
 export function newPerson(): IPerson {
 	return {
-		firstName: '',
-		middleNames: [],
-		lastName: '',
-		gender: null,
-		portrait: null,
-		dateOfBirth: '',
-		placeOfBirth: '',
-		dateOfMarriage: '',
-		placeOfMarriage: '',
-		dateOfDeath: '',
-		placeOfDeath: '',
-		parent: null,
-		spouse: null,
+		id: 0,
+		parentId: 0,
+		name: '',
+		path: '',
+		sex: '',
+		dateBirth: '',
+		dateMarry: '',
+		placeBirth: '',
+		dateDeath: '',
+		placeDeath: '',
+		content: '',
+		honor: '',
 		children: [],
-		nodeCount: 1,
 	};
 }

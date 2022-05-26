@@ -7,98 +7,59 @@
           <label
             ><input
               type="radio"
-              name="gender"
-              value="male"
-              v-model="currentPerson.gender"
+              name="sex"
+              value="1"
+              v-model="currentPerson.sex"
             />
             男
           </label>
           <label>
             <input
               type="radio"
-              name="gender"
-              value="female"
-              v-model="currentPerson.gender"
+              name="sex"
+              value="2"
+              v-model="currentPerson.sex"
             />
             女
           </label>
         </div>
       </div>
       <div class="row">
-        <label for="firstName">姓名:</label>
-        <input type="text" id="firstName" v-model="currentPerson.firstName" />
+        <label for="name">姓名:</label>
+        <input type="text" id="name" v-model="currentPerson.name" />
       </div>
 
       <div class="row">
-        <label for="dateOfBirth">出生日期:</label>
-        <input
-          type="date"
-          id="dateOfBirth"
-          v-model="currentPerson.dateOfBirth"
-        />
+        <label for="dateBirth">出生日期:</label>
+        <input type="date" id="dateBirth" v-model="currentPerson.dateBirth" />
       </div>
       <div class="row">
-        <label for="dateOfBirth">结婚日期:</label>
-        <input
-          type="date"
-          id="dateOfBirth"
-          v-model="currentPerson.dateOfBirth"
-        />
+        <label for="dateMarry">结婚日期:</label>
+        <input type="date" id="dateMarry" v-model="currentPerson.dateMarry" />
       </div>
       <div class="row">
-        <label for="placeOfBirth">出生地:</label>
-        <input
-          type="text"
-          id="placeOfBirth"
-          v-model="currentPerson.placeOfBirth"
-        />
+        <label for="placeBirth">出生地:</label>
+        <input type="text" id="placeBirth" v-model="currentPerson.placeBirth" />
       </div>
       <div class="row">
-        <label for="dateOfDeath">死亡时间:</label>
-        <input
-          type="date"
-          id="dateOfDeath"
-          v-model="currentPerson.dateOfDeath"
-        />
+        <label for="dateDeath">死亡时间:</label>
+        <input type="date" id="dateDeath" v-model="currentPerson.dateDeath" />
       </div>
       <div class="row">
-        <label for="placeOfDeath">死亡地点:</label>
-        <input
-          type="text"
-          id="placeOfDeath"
-          v-model="currentPerson.placeOfDeath"
-        />
+        <label for="placeDeath">死亡地点:</label>
+        <input type="text" id="placeDeath" v-model="currentPerson.placeDeath" />
       </div>
       <div class="row">
-        <label for="placeOfDeath">生平简介:</label>
-        <input
-          type="text"
-          id="placeOfDeath"
-          v-model="currentPerson.placeOfDeath"
-        />
+        <label for="content">生平简介:</label>
+        <input type="text" id="content" v-model="currentPerson.content" />
       </div>
       <div class="row">
-        <label for="placeOfDeath">荣誉:</label>
-        <input
-          type="text"
-          id="placeOfDeath"
-          v-model="currentPerson.placeOfDeath"
-        />
+        <label for="honor">荣誉:</label>
+        <input type="text" id="honor" v-model="currentPerson.honor" />
       </div>
     </div>
     <div class="buttonrow">
-      <button
-        v-if="
-          (editMode === EditMode.PERSON || editMode === EditMode.CHILD) &&
-          !currentPerson.spouse
-        "
-        @click="onAddPartner()"
-      >
-        add partner
-      </button>
-      <button v-if="editMode === EditMode.PARENT" @click="onAddChild()">
-        add child
-      </button>
+      <button @click="onAddChild()">add child</button>
       <button @click="onCloseModal()">close</button>
     </div>
   </modal>
@@ -136,27 +97,22 @@ export default defineComponent({
     const currentPerson = ref<IPerson>(props.person);
     const editMode = ref(props.mode);
 
-    function onAddName(): void {
-      currentPerson.value.middleNames.push("");
-    }
-    function onRemoveName(index: number): void {
-      currentPerson.value.middleNames.splice(index, 1);
-    }
+    // 照片选择
+    // function onFileChange(event: Event): void {
+    //   const fileInput: HTMLInputElement = event.target as HTMLInputElement;
+    //   if (fileInput.files && fileInput.files.length > 0) {
+    //     const file = fileInput.files.item(0);
+    //     if (file) {
+    //       currentPerson.value.portrait = {
+    //         fileName: file.name,
+    //         mimeType: file.type,
+    //       };
+    //       base64.value = URL.createObjectURL(file);
+    //     }
+    //     fileInput.value = "";
+    //   }
+    // }
 
-    function onFileChange(event: Event): void {
-      const fileInput: HTMLInputElement = event.target as HTMLInputElement;
-      if (fileInput.files && fileInput.files.length > 0) {
-        const file = fileInput.files.item(0);
-        if (file) {
-          currentPerson.value.portrait = {
-            fileName: file.name,
-            mimeType: file.type,
-          };
-          base64.value = URL.createObjectURL(file);
-        }
-        fileInput.value = "";
-      }
-    }
     function onLoad(): void {
       URL.revokeObjectURL(base64.value);
     }
@@ -168,20 +124,7 @@ export default defineComponent({
       editMode.value = EditMode.CHILD;
       base64.value = "";
     }
-    function onAddPartner(): void {
-      if (currentPerson.value) {
-        const partner = newPerson();
-        if (currentPerson.value.parent) {
-          currentPerson.value.spouse = partner;
-          editMode.value = EditMode.SPOUSE;
-        } else {
-          currentPerson.value.parent = partner;
-          editMode.value = EditMode.PARENT;
-        }
-        currentPerson.value = partner;
-        base64.value = "";
-      }
-    }
+
     function onCloseModal(): void {
       showModal.value = false;
       emit(EMIT_CLOSE);
@@ -192,12 +135,9 @@ export default defineComponent({
       EditMode,
       editMode,
       showModal,
-      onAddName,
-      onRemoveName,
-      onFileChange,
+      // onFileChange,
       onLoad,
       onAddChild,
-      onAddPartner,
       onCloseModal,
     };
   },

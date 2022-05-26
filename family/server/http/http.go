@@ -25,14 +25,16 @@ func Init(c *conf.Config, s *service.Service) {
 
 func setupInnerEngine(e *gin.Engine) {
 
-	g := e.Group("/v1")
+	g := e.Group("/v1").Use(origin)
 	{
-
 		g.POST("/member/create", FamilytreeCreate)
 		g.POST("/member/update", FamilytreeUpdate)
 		g.POST("/member/delete", FamilytreeDelete)
 		g.POST("/member/list", FamilytreeList)
 
 	}
+}
 
+func origin(ctx *gin.Context) {
+	ctx.Header("Access-Control-Allow-Origin", "*")
 }

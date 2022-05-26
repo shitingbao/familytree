@@ -3,7 +3,6 @@ package http
 import (
 	"familytree/family/lib/response"
 	"familytree/family/model"
-	"familytree/family/params"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +22,7 @@ func FamilytreeCreate(ctx *gin.Context) {
 }
 
 func FamilytreeUpdate(ctx *gin.Context) {
-	arg := &params.ArgMemeber{}
+	arg := &model.Member{}
 	if err := ctx.Bind(&arg); err != nil {
 		response.ApiFailed(ctx, err)
 		return
@@ -37,7 +36,7 @@ func FamilytreeUpdate(ctx *gin.Context) {
 }
 
 func FamilytreeDelete(ctx *gin.Context) {
-	arg := &params.ArgMemeber{}
+	arg := &model.Member{}
 	if err := ctx.Bind(&arg); err != nil {
 		response.ApiFailed(ctx, err)
 		return
@@ -51,7 +50,7 @@ func FamilytreeDelete(ctx *gin.Context) {
 }
 
 func FamilytreeList(ctx *gin.Context) {
-	arg := &params.ArgMemeber{}
+	arg := &model.Member{}
 	if err := ctx.Bind(&arg); err != nil {
 		response.ApiFailed(ctx, err)
 		return
