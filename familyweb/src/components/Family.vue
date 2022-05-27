@@ -23,12 +23,12 @@ const isNull = ref(false);
 
 function reloadMember(): void {
   console.log("getMember start");
-  getMember("6");
+  getMember();
 }
 
 bus.on("reloadMember", reloadMember);
 
-function getMember(id: string) {
+function getMember(id: string = "") {
   formState.value = new Member();
   const formData = new FormData();
   formData.append("id", id);
@@ -37,7 +37,6 @@ function getMember(id: string) {
     .then((response) => {
       formState.value.getHeader(response.data.data);
       if (!(response.data.data as []).length) {
-        console.log("=========:", !response.data.data.length);
         isNull.value = true;
       }
     });
@@ -55,7 +54,7 @@ function createRoot() {
 }
 
 onMounted(() => {
-  getMember("6");
+  getMember();
 });
 </script>
 

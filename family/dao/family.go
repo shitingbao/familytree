@@ -45,7 +45,12 @@ func (d *FamilyTreeCaseDao) MemberList(arg *model.Member) ([]model.Member, error
 // 注意节点前缀 比如 6和60
 func (d *FamilyTreeCaseDao) MemberLast(arg *model.Member) ([]model.Member, error) {
 	list := []model.Member{}
-	db := d.Data.DB().Debug().Table("member").Where("path like ? or id = ? or path = ?", strconv.Itoa(arg.ID)+",%", arg.ID, strconv.Itoa(arg.ID))
+	id := arg.ID
+	if arg.ID == 0 {
+		d.Data.DB().Select("id").Table("member").Where("parent_id = 0").Find(&id)
+	}
+	db := d.Data.DB().Debug().Table("member").
+		Where("path like ? or id = ? or path = ?", strconv.Itoa(id)+",%", id, strconv.Itoa(id))
 	err := db.Scan(&list).Error
 	return list, err
 }
