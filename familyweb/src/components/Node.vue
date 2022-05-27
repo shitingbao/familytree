@@ -26,6 +26,7 @@ import axios from "axios";
 import { Member } from "../model/member";
 import Edit from "./Edit.vue";
 import Node from "./Node.vue";
+import bus from "../libs/bus";
 
 const props = defineProps({
   formState: {
@@ -37,7 +38,6 @@ const props = defineProps({
 });
 
 const visible = ref<boolean>(false);
-const emit = defineEmits(["nodevisible"]);
 
 const showModal = () => {
   visible.value = true;
@@ -46,7 +46,7 @@ const showModal = () => {
 function editClose() {
   console.log("editClose start");
   visible.value = false;
-  location.reload();
+  bus.emit("reloadMember");
 }
 </script>
 

@@ -33,6 +33,9 @@ export class Member {
 
 	// 构造头节点
 	getHeader(rows: any[]) {
+		if (rows.length == 0) {
+			return
+		}
 		var root = rows.find((e) => {
 			return e.parentId == 0
 		})

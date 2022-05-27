@@ -1,10 +1,5 @@
 <template>
-  <a-form
-    :model="formState"
-    v-bind="layout"
-    name="nest-messages"
-    :validate-messages="validateMessages"
-  >
+  <a-form :model="formState" v-bind="layout" name="nest-messages">
     <a-form-item
       :name="['user', 'name']"
       label="姓名"
@@ -70,17 +65,6 @@ const visible = ref<boolean>(false);
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 },
-};
-
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
 };
 
 const emit = defineEmits(["visible"]);
