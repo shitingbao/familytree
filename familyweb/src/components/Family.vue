@@ -1,7 +1,7 @@
 <template>
   <h1>族谱</h1>
   <a-button class="save" @click="keepPicture">保存族谱</a-button>
-  <div class="body" ref="tupuPicture">
+  <div class="body" ref="zhupu">
     <a-button v-if="isNull" type="primary" @click="createRoot">
       createRoot
     </a-button>
@@ -10,15 +10,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 import axios from "axios";
 import { Member } from "../model/member";
 import Node from "./Node.vue";
 import bus from "../libs/bus";
-import { getCurrentInstance } from "@vue/runtime-core";
 import html2canvas from "html2canvas";
 
-const currentInstance = getCurrentInstance();
+const { proxy }: any = getCurrentInstance();
+
 const formState = ref<Member>(new Member());
 
 const isNull = ref(false);
@@ -58,14 +58,14 @@ function createRoot() {
 
 //保存图片
 function keepPicture() {
-  html2canvas(currentInstance.ctx.$refs.tupuPicture).then((canvas) => {
+  html2canvas(proxy.$refs.zhupu as HTMLElement).then((canvas) => {
     // 获取生成的图片的url,并设置为png格式
     const imgUrl = canvas.toDataURL("png");
     let creatDom = document.createElement("a");
     document.body.appendChild(creatDom);
     creatDom.href = imgUrl;
     //设置生成图片的名称
-    creatDom.download = "图片名字";
+    creatDom.download = "zhupu";
     creatDom.click();
   });
 }
