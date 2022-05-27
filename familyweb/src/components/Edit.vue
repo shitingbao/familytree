@@ -20,16 +20,22 @@
     </a-form-item>
 
     <a-form-item label="出生日期">
-      <a-input v-model:value="formState.dateBirth" />
+      <a-space direction="vertical" :size="12">
+        <a-date-picker v-model:value="dateBirth" @change="selectDate" />
+      </a-space>
     </a-form-item>
     <a-form-item label="结婚日期">
-      <a-input v-model:value="formState.dateMarry" />
+      <a-space direction="vertical" :size="12">
+        <a-date-picker v-model:value="dateMarry" />
+      </a-space>
     </a-form-item>
     <a-form-item label="出生地">
       <a-input v-model:value="formState.placeBirth" />
     </a-form-item>
     <a-form-item label="死亡时间">
-      <a-input v-model:value="formState.dateDeath" />
+      <a-space direction="vertical" :size="12">
+        <a-date-picker v-model:value="dateDeath" />
+      </a-space>
     </a-form-item>
     <a-form-item label="死亡地点">
       <a-input v-model:value="formState.placeDeath" />
@@ -59,6 +65,7 @@ import { ManOutlined, WomanOutlined } from "@ant-design/icons-vue";
 import axios from "axios";
 import { Member } from "../model/member";
 import qs from "qs";
+import dayjs, { Dayjs } from "dayjs";
 
 const props = defineProps({
   row: {
@@ -71,6 +78,10 @@ const props = defineProps({
 
 const formState = ref<Member>(new Member());
 
+const dateBirth = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
+const dateMarry = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
+const dateDeath = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
+
 const visible = ref<boolean>(false);
 
 const layout = {
@@ -79,6 +90,12 @@ const layout = {
 };
 
 const emit = defineEmits(["visible"]);
+
+function selectDate() {
+  formState.value.dateBirth = dateBirth.value.format("YYYY-MM-DD");
+  formState.value.dateMarry = dateMarry.value.format("YYYY-MM-DD");
+  formState.value.dateDeath = dateDeath.value.format("YYYY-MM-DD");
+}
 
 function updateMemeber() {
   axios({
@@ -130,6 +147,9 @@ watch(
   () => props.row.id,
   () => {
     formState.value.initData(props.row);
+    dateBirth.value = dayjs(formState.value.dateBirth, "YYYY-MM-DD");
+    dateMarry.value = dayjs(formState.value.dateMarry, "YYYY-MM-DD");
+    dateDeath.value = dayjs(formState.value.dateDeath, "YYYY-MM-DD");
   },
   { deep: true, immediate: true }
 );
