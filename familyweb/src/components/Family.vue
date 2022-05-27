@@ -48,6 +48,7 @@ function createRoot() {
   axios
     .post("http://localhost:6200/v1/member/create", formData)
     .then((response) => {
+      getMember();
       console.log(response);
       isNull.value = false;
     });
