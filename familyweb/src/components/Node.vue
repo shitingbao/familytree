@@ -54,12 +54,10 @@ function editClose() {
 .node {
   display: flex;
   flex-direction: column;
-  width: 100px;
   padding: 10px 10px 0 0px;
 }
 .children {
   display: flex;
   flex-direction: row;
-  width: 100px;
 }
 </style>

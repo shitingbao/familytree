@@ -1,10 +1,12 @@
 <template>
   <a-form :model="formState" v-bind="layout" name="nest-messages">
-    <a-form-item
-      :name="['user', 'name']"
-      label="姓名"
-      :rules="[{ required: true }]"
-    >
+    <a-form-item label="id">
+      <a-input v-model:value="formState.id" />
+    </a-form-item>
+    <a-form-item label="parentID">
+      <a-input v-model:value="formState.parentId" />
+    </a-form-item>
+    <a-form-item label="姓名">
       <a-input v-model:value="formState.name" />
     </a-form-item>
 
