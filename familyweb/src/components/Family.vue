@@ -1,6 +1,7 @@
 <template>
-  <h1>{{ msg }}</h1>
-  <div class="body">
+  <h1>族谱</h1>
+  <a-button class="save" @click="keepPicture">保存族谱</a-button>
+  <div class="body" ref="tupuPicture">
     <a-button v-if="isNull" type="primary" @click="createRoot">
       createRoot
     </a-button>
@@ -14,9 +15,10 @@ import axios from "axios";
 import { Member } from "../model/member";
 import Node from "./Node.vue";
 import bus from "../libs/bus";
+import { getCurrentInstance } from "@vue/runtime-core";
+import html2canvas from "html2canvas";
 
-defineProps<{ msg: string }>();
-
+const currentInstance = getCurrentInstance();
 const formState = ref<Member>(new Member());
 
 const isNull = ref(false);
@@ -54,6 +56,20 @@ function createRoot() {
     });
 }
 
+//保存图片
+function keepPicture() {
+  html2canvas(currentInstance.ctx.$refs.tupuPicture).then((canvas) => {
+    // 获取生成的图片的url,并设置为png格式
+    const imgUrl = canvas.toDataURL("png");
+    let creatDom = document.createElement("a");
+    document.body.appendChild(creatDom);
+    creatDom.href = imgUrl;
+    //设置生成图片的名称
+    creatDom.download = "图片名字";
+    creatDom.click();
+  });
+}
+
 onMounted(() => {
   getMember();
 });
@@ -71,5 +87,11 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.save {
+  position: absolute;
+  top: 10%;
+  right: 40%;
 }
 </style>

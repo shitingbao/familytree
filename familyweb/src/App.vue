@@ -5,7 +5,7 @@ import Family from "./components/Family.vue";
 </script>
 
 <template>
-  <Family msg="族谱" />
+  <Family />
 </template>
 
 <style>
