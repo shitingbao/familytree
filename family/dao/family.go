@@ -37,7 +37,7 @@ func (d *FamilyTreeCaseDao) MemberList(arg *model.Member) ([]model.Member, error
 	list := []model.Member{}
 	db := d.Data.DB().Table("member").Where("parent_id", arg.ID)
 
-	err := db.Scan(&list).Error
+	err := db.Order("id").Scan(&list).Error
 	return list, err
 }
 
@@ -51,6 +51,6 @@ func (d *FamilyTreeCaseDao) MemberLast(arg *model.Member) ([]model.Member, error
 	}
 	db := d.Data.DB().Debug().Table("member").
 		Where("path like ? or id = ? or path = ?", strconv.Itoa(id)+",%", id, strconv.Itoa(id))
-	err := db.Scan(&list).Error
+	err := db.Order("id").Scan(&list).Error
 	return list, err
 }
