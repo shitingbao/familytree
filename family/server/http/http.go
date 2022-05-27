@@ -2,6 +2,8 @@ package http
 
 import (
 	"fmt"
+	"net/http"
+	"path"
 
 	"familytree/family/conf"
 
@@ -11,7 +13,8 @@ import (
 )
 
 var (
-	Svc *service.Service
+	Svc                *service.Service
+	vueAssetsRoutePath = "./dist" // dist 所在路径
 )
 
 //初始化路由
@@ -24,6 +27,11 @@ func Init(c *conf.Config, s *service.Service) {
 }
 
 func setupInnerEngine(e *gin.Engine) {
+
+	e.StaticFile("/", path.Join(vueAssetsRoutePath, "index.html"))             // 指定资源文件 127.0.0.1/ 这种
+	e.StaticFile("/favicon.ico", path.Join(vueAssetsRoutePath, "favicon.ico")) // 127.0.0.1/favicon.ico
+	e.StaticFS("/assets", http.Dir(path.Join(vueAssetsRoutePath, "assets")))   // 以 assets 为前缀的 url
+
 	g := e.Group("/v1").Use(origin)
 	{
 		g.POST("/member/create", FamilytreeCreate)
