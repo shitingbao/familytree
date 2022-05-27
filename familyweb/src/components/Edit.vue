@@ -9,6 +9,15 @@
     <a-form-item label="姓名">
       <a-input v-model:value="formState.name" />
     </a-form-item>
+    <a-form-item label="性别">
+      <a-switch
+        v-model:checked="formState.sex"
+        :checkedValue="1"
+        :unCheckedValue="2"
+        checked-children="男"
+        un-checked-children="女"
+      />
+    </a-form-item>
 
     <a-form-item label="出生日期">
       <a-input v-model:value="formState.dateBirth" />
