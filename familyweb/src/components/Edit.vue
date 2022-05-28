@@ -3,6 +3,9 @@
     <a-form-item label="姓名">
       <a-input v-model:value="formState.name" />
     </a-form-item>
+    <a-form-item label="家族所属">
+      <a-input v-model:value="formState.familySimple" />
+    </a-form-item>
     <a-form-item label="性别">
       <a-switch
         v-model:checked="formState.sex"
@@ -114,6 +117,7 @@ function updateMemeber() {
 function addChild() {
   const formData = new FormData();
   formData.append("name", "son");
+  formData.append("familySimple", formState.value.familySimple);
   formData.append("parentId", formState.value.id + "");
 
   // 新的路径等于父节点路径加上父节点id，注意第一个节点为空

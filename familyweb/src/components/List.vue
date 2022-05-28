@@ -4,10 +4,27 @@
     <a-button
       class="editable-add-btn"
       style="margin-bottom: 8px"
-      @click="handleAdd"
+      @click="handOK"
     >
       添加一个新家族
     </a-button>
+    <a-modal v-model:visible="visible" title="成员信息" :footer="null">
+      <a-form :model="formState" v-bind="layout" name="nest-messages">
+        <a-form-item label="姓名">
+          <a-input v-model:value="formState.name" />
+        </a-form-item>
+        <a-form-item label="家族标志">
+          <a-input v-model:value="formState.familySimple" />
+        </a-form-item>
+        <div class="foot">
+          <a-button class="btn" type="primary" @click="handleAdd">
+            添加新家族
+          </a-button>
+          <a-button type="primary" @click="cancle">取消</a-button>
+        </div>
+      </a-form>
+    </a-modal>
+
     <a-table
       class="list"
       bordered
@@ -17,6 +34,13 @@
     >
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'name'">
+          <div class="editable-cell">
+            <div class="editable-cell-text-wrapper">
+              {{ text || " " }}
+            </div>
+          </div>
+        </template>
+        <template v-else-if="column.dataIndex === 'familySimple'">
           <div class="editable-cell">
             <div class="editable-cell-text-wrapper">
               {{ text || " " }}
@@ -37,16 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  onMounted,
-  watch,
-  PropType,
-  Ref,
-  UnwrapRef,
-  computed,
-  reactive,
-} from "vue";
+import { ref, onMounted, Ref, UnwrapRef, computed, reactive } from "vue";
 import { ManOutlined, WomanOutlined } from "@ant-design/icons-vue";
 import axios from "axios";
 import { Member } from "../model/member";
@@ -60,23 +75,41 @@ import { SHOW_ALL } from "ant-design-vue/lib/vc-tree-select/utils/strategyUtil";
 interface DataItem {
   memberId: string;
   name: string;
+  familySimple: string;
 }
 
 const props = defineProps({
-  formState: {
-    type: Object as PropType<Member>,
-    default: () => {
-      return new Member();
-    },
-  },
+  // formState: {
+  //   type: Object as PropType<Member>,
+  //   default: () => {
+  //     return new Member();
+  //   },
+  // },
 });
 
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
+};
+
 bus.on("reloadList", MemberList);
+
+const formState = ref<Member>({
+  name: "newpeople",
+  familySimple: "new family simple",
+} as Member); // 弹出框信息
+
+const visible = ref(false);
 
 const columns = [
   {
     title: "last",
     dataIndex: "name",
+    width: "30%",
+  },
+  {
+    title: "last",
+    dataIndex: "familySimple",
     width: "30%",
   },
   {
@@ -86,10 +119,17 @@ const columns = [
 ];
 
 const dataSource: Ref<DataItem[]> = ref([]);
-const editableData: UnwrapRef<Record<string, DataItem>> = reactive({});
 
 function showMemberList(memberId: string) {
   bus.emit("reloadMember", memberId);
+}
+
+function cancle() {
+  visible.value = false;
+}
+
+function handOK() {
+  visible.value = true;
 }
 
 function onDelete(memberId: string) {
@@ -107,7 +147,8 @@ function onDelete(memberId: string) {
 
 function handleAdd() {
   const formData = new FormData();
-  formData.append("name", "newRoot");
+  formData.append("name", formState.value.name);
+  formData.append("familySimple", formState.value.familySimple);
   axios
     .post("http://localhost:6200/v1/member/create", formData)
     .then((response) => {
@@ -127,6 +168,7 @@ function MemberList() {
         dataSource.value.push({
           memberId: e.id,
           name: e.name,
+          familySimple: e.familySimple,
         });
       });
       console.log("list:", response.data);

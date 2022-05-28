@@ -2,7 +2,7 @@
   <a-button class="save" @click="keepPicture">保存族谱</a-button>
   <div class="body" ref="zhupu">
     <div class="content">
-      <List class="list" />
+      <List class="content-list" />
       <div class="content-body">
         <Node class="node" :formState="formState" />
       </div>
@@ -93,7 +93,7 @@ onMounted(() => {
   width: 100%;
 }
 
-.list {
+.content-list {
   width: 200px;
 }
 .content-body {

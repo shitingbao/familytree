@@ -12,6 +12,7 @@ export class Member {
 	placeDeath = '';
 	content = '';
 	honor = '';
+	familySimple = ''
 	children: Member[] = [];
 
 	initData(row: any) {
@@ -28,6 +29,7 @@ export class Member {
 		this.placeDeath = row?.placeDeath;
 		this.content = row?.content;
 		this.honor = row?.honor;
+		this.familySimple = row?.familySimple;
 		// this.children = row?.children
 	}
 
