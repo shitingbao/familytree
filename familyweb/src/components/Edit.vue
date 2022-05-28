@@ -4,7 +4,7 @@
       <a-input v-model:value="formState.name" />
     </a-form-item>
     <a-form-item label="家族所属">
-      <a-input v-model:value="formState.familySimple" />
+      <a-input disabled="disabled" v-model:value="formState.familySimple" />
     </a-form-item>
     <a-form-item label="性别">
       <a-switch
