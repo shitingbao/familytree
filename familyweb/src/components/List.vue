@@ -1,5 +1,5 @@
 <template>
-  <div class="title">
+  <div>
     <h1>家族列表</h1>
     <a-button
       class="editable-add-btn"
@@ -8,7 +8,13 @@
     >
       添加一个新家族
     </a-button>
-    <a-table bordered :data-source="dataSource" :columns="columns">
+    <a-table
+      class="list"
+      bordered
+      :data-source="dataSource"
+      :columns="columns"
+      :pagination="{ pageSize: 5 }"
+    >
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'name'">
           <div class="editable-cell">
@@ -54,7 +60,6 @@ import { SHOW_ALL } from "ant-design-vue/lib/vc-tree-select/utils/strategyUtil";
 interface DataItem {
   memberId: string;
   name: string;
-  address: string;
 }
 
 const props = defineProps({
@@ -73,11 +78,6 @@ const columns = [
     title: "last",
     dataIndex: "name",
     width: "30%",
-  },
-
-  {
-    title: "address",
-    dataIndex: "address",
   },
   {
     title: "operation",
@@ -127,7 +127,6 @@ function MemberList() {
         dataSource.value.push({
           memberId: e.id,
           name: e.name,
-          address: "",
         });
       });
       console.log("list:", response.data);
