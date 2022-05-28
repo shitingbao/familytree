@@ -60,6 +60,7 @@ import axios from "axios";
 import { Member } from "../model/member";
 import qs from "qs";
 import dayjs, { Dayjs } from "dayjs";
+import bus from "../libs/bus";
 
 const props = defineProps({
   row: {
@@ -101,6 +102,9 @@ function updateMemeber() {
     },
   }).then((response) => {
     console.log(response);
+    if (formState.value.parentId == 0) {
+      bus.emit("reloadList");
+    }
     // formState.value.getHeader(response.data.data);
     // console.log(" response.data response.data", response.data);
     emit("visible");
@@ -134,6 +138,11 @@ function deleteMember() {
       console.log(response);
       // formState.value.getHeader(response.data.data);
       emit("visible");
+      // 删除根节点通知列表刷新
+      if (formState.value.parentId == 0) {
+        bus.emit("reloadList");
+        bus.emit("reloadMember", "");
+      }
     });
 }
 

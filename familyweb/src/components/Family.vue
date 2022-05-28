@@ -1,11 +1,12 @@
 <template>
-  <h1>族谱</h1>
   <a-button class="save" @click="keepPicture">保存族谱</a-button>
   <div class="body" ref="zhupu">
-    <a-button v-if="isNull" type="primary" @click="createRoot">
-      createRoot
-    </a-button>
-    <Node v-if="!isNull" class="node" :formState="formState" />
+    <div class="content">
+      <List class="list" />
+      <div class="content-body">
+        <Node class="node" :formState="formState" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { ref, onMounted, getCurrentInstance } from "vue";
 import axios from "axios";
 import { Member } from "../model/member";
 import Node from "./Node.vue";
+import List from "./List.vue";
 import bus from "../libs/bus";
 import html2canvas from "html2canvas";
 
@@ -21,38 +23,25 @@ const { proxy }: any = getCurrentInstance();
 
 const formState = ref<Member>(new Member());
 
-const isNull = ref(false);
-
-function reloadMember(): void {
+const selectLastMemberId = ref("");
+function reloadMember(id: string = selectLastMemberId.value) {
   console.log("getMember start");
-  getMember();
+  getMember(id);
 }
 
-bus.on("reloadMember", reloadMember);
+bus.on("reloadMember", reloadMember as any);
 
 function getMember(id: string = "") {
   formState.value = new Member();
   const formData = new FormData();
   formData.append("id", id);
+  selectLastMemberId.value = id;
   axios
     .post("http://localhost:6200/v1/member/last", formData)
     .then((response) => {
       formState.value.getHeader(response.data.data);
       if (!(response.data.data as []).length) {
-        isNull.value = true;
       }
-    });
-}
-
-function createRoot() {
-  const formData = new FormData();
-  formData.append("name", "newRoot");
-  axios
-    .post("http://localhost:6200/v1/member/create", formData)
-    .then((response) => {
-      getMember();
-      console.log(response);
-      isNull.value = false;
     });
 }
 
@@ -84,14 +73,30 @@ onMounted(() => {
 }
 .node {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   width: 100%;
+  flex: 3;
 }
 
 .save {
   position: absolute;
-  top: 10%;
-  right: 40%;
+  height: 100px;
+  width: 100px;
+  bottom: 2%;
+  right: 2%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.list {
+  width: 200px;
+}
+.content-body {
+  flex: 1;
 }
 </style>
