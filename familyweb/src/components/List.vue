@@ -153,6 +153,7 @@ function handleAdd() {
     .post("http://localhost:6200/v1/member/create", formData)
     .then((response) => {
       MemberList();
+      visible.value = false;
       console.log(response);
     });
 }
