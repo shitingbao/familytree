@@ -14,6 +14,7 @@ type ArgMember struct {
 	Content      string `form:"content" json:"content" gorm:"comumn:content"`
 	Honor        string `form:"honor" json:"honor" gorm:"comumn:honor"`
 	FamilySimple string `form:"familySimple" json:"familySimple" gorm:"comumn:family_simple"`
+	MarryId      int    `form:"marryId" json:"marryId" gorm:"comumn:marry_id"`
 }
 
 func (ArgMember) TableName() string {

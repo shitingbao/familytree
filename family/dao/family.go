@@ -20,6 +20,7 @@ func NewFamilyTreeCaseDao(da *Data) *FamilyTreeCaseDao {
 	}
 }
 
+// 配偶对应 path 相同获取整颗树的时候可以获取，parentid 为 -1 与根节点区分，代表不在该直接的树内
 func (d *FamilyTreeCaseDao) Create(arg *model.Member) error {
 	return d.Data.db.Table("member").Create(arg).Error
 }

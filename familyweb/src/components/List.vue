@@ -75,6 +75,7 @@ import { Member } from "../model/member";
 import bus from "../libs/bus";
 
 interface DataItem {
+  memberId: string;
   name: string;
   familySimple: string;
 }
@@ -159,6 +160,7 @@ function MemberList() {
     .then((response) => {
       response.data.data.forEach((e: any) => {
         dataSource.value.push({
+          memberId: e.id,
           name: e.name,
           familySimple: e.familySimple,
         });

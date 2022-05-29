@@ -1,6 +1,11 @@
 <template>
   <div class="node">
-    <a-button type="primary" @click="showModal">
+    <a-button
+      :class="formState.sex == 1 ? 'btn1' : 'btn2'"
+      class="btn"
+      type="primary"
+      @click="showModal"
+    >
       <ManOutlined v-if="formState.sex === 1" />
       <WomanOutlined v-else />
       {{ formState.name }}
@@ -58,5 +63,12 @@ function editClose() {
 .children {
   display: flex;
   flex-direction: row;
+}
+.btn1 {
+  background-color: rgb(83, 128, 235);
+}
+
+.btn2 {
+  background-color: rgb(253, 171, 48);
 }
 </style>
