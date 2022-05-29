@@ -2,10 +2,13 @@
   <a-tabs class="tab" v-model:activeKey="activeKey">
     <a-tab-pane key="1" tab="家族信息" force-render>
       <a-button class="save" @click="keepPicture">保存族谱</a-button>
-      <div class="body" ref="zhupu">
+      <div class="body">
         <div class="content">
           <List class="content-list" />
-          <div class="content-body">
+          <div class="content-body" ref="zhupu">
+            <div class="tag">
+              <Tag />
+            </div>
             <Node class="node" :formState="formState" />
           </div>
         </div>
@@ -15,9 +18,6 @@
       <Search />
     </a-tab-pane>
   </a-tabs>
-  <div class="tag">
-    <Tag />
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -121,7 +121,7 @@ onMounted(() => {
 
 .tag {
   position: absolute;
-  top: 2%;
+  top: 10%;
   right: 5%;
 }
 </style>
