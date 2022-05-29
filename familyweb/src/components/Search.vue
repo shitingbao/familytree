@@ -79,7 +79,7 @@ function getMember() {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .table {
   width: 1500px;
 }
