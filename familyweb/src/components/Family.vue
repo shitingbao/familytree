@@ -37,7 +37,6 @@ const selectLastMemberId = ref("");
 bus.on("reloadMember", reloadMember as any);
 
 function reloadMember(id: string = selectLastMemberId.value) {
-  console.log("getMember start");
   getMember(id);
 }
 
@@ -50,6 +49,8 @@ function getMember(id: string = "") {
     .post("http://localhost:6200/v1/member/last", formData)
     .then((response) => {
       formState.value.getHeader(response.data.data);
+      console.log("getMember start", formState.value);
+
       if (!(response.data.data as []).length) {
       }
     });

@@ -48,10 +48,18 @@
       <a-button class="btn" type="primary" @click="updateMemeber">
         提交修改
       </a-button>
-      <a-button class="btn" type="primary" @click="addChild">
+      <a-button
+        v-if="row.parentId != -1"
+        class="btn"
+        type="primary"
+        @click="addChild"
+      >
         增加子节点
       </a-button>
       <a-button type="primary" @click="deleteMember">删除节点</a-button>
+      <a-button v-if="row.parentId != -1" type="primary" @click="addMarryMember"
+        >添加配偶</a-button
+      >
     </div>
   </a-form>
 </template>
@@ -116,6 +124,24 @@ function addChild() {
   formData.append("name", "son");
   formData.append("familySimple", formState.value.familySimple);
   formData.append("parentId", formState.value.id + "");
+
+  // 新的路径等于父节点路径加上父节点id，注意第一个节点为空
+  const newPath = formState.value.path == "" ? "" : formState.value.path + ",";
+  formData.append("path", newPath + formState.value.id);
+  axios
+    .post("http://localhost:6200/v1/member/create", formData)
+    .then((response) => {
+      console.log(response);
+      emit("visible");
+    });
+}
+
+function addMarryMember() {
+  const formData = new FormData();
+  formData.append("name", "marryMember");
+  formData.append("familySimple", formState.value.familySimple);
+  formData.append("parentId", "-1");
+  formData.append("marryId", formState.value.id + "");
 
   // 新的路径等于父节点路径加上父节点id，注意第一个节点为空
   const newPath = formState.value.path == "" ? "" : formState.value.path + ",";

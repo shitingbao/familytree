@@ -13,7 +13,9 @@ export class Member {
 	content = '';
 	honor = '';
 	familySimple = ''
+	marryId = 0
 	memberChildren: Member[] = [];
+	marryMember: Member = {} as Member;
 
 	initData(row: any) {
 		// console.log("rwo:", row)
@@ -47,6 +49,7 @@ export class Member {
 
 	// 从反馈的所有节点里，构建基本树结构
 	// 递归找到自己所有孩子
+	// 同时加入配偶节点
 	construct(root: Member, rows: any[]) {
 		var rs = rows.filter((item) => {
 			return item.parentId == root.id
@@ -60,5 +63,15 @@ export class Member {
 				this.construct(node, rows)
 			})
 		}
+		// 加入配偶对象
+		var marryNode = rows.find((item) => {
+			return item.marryId == root.id
+		})
+
+		var n = new Member()
+		n.initData(marryNode)
+		root.marryMember = n
+
+		console.log("marryNode:", marryNode, this.marryMember)
 	}
 }

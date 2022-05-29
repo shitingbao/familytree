@@ -1,18 +1,33 @@
 <template>
   <div class="node">
-    <a-button
-      :class="formState.sex == 1 ? 'btn1' : 'btn2'"
-      class="btn"
-      type="primary"
-      @click="showModal"
-    >
-      <ManOutlined v-if="formState.sex === 1" />
-      <WomanOutlined v-else />
-      {{ formState.name }}
-    </a-button>
+    <div class="node-content">
+      <a-button
+        :class="formState.sex == 1 ? 'btn1' : 'btn2'"
+        type="primary"
+        @click="showModal(1)"
+      >
+        <ManOutlined v-if="formState.sex === 1" />
+        <WomanOutlined v-else />
+        {{ formState.name }}
+      </a-button>
+
+      <!-- 未赋值的不显示，标示无配偶 -->
+      <a-button
+        v-if="formState.marryMember?.parentId == -1"
+        class="btnM"
+        type="primary"
+        @click="showModal(2)"
+      >
+        <ManOutlined v-if="formState.marryMember.sex === 1" />
+        <WomanOutlined v-else />
+        {{ formState.marryMember.name }}
+      </a-button>
+    </div>
+
     <a-modal v-model:visible="visible" title="成员信息" :footer="null">
-      <Edit :row="formState" @visible="editClose" />
+      <Edit :row="selectMember" @visible="editClose" />
     </a-modal>
+
     <div class="children">
       <Node
         class="node-child"
@@ -43,9 +58,16 @@ const props = defineProps({
 
 const visible = ref<boolean>(false);
 
-const showModal = () => {
+const selectMember = ref<Member>(props.formState);
+
+function showModal(flag: number = 1) {
+  if (flag == 1) {
+    selectMember.value = props.formState;
+  } else {
+    selectMember.value = props.formState.marryMember;
+  }
   visible.value = true;
-};
+}
 
 function editClose() {
   console.log("editClose start");
@@ -70,5 +92,13 @@ function editClose() {
 
 .btn2 {
   background-color: rgb(253, 171, 48);
+}
+
+.btnM {
+  background-color: blueviolet;
+}
+
+.node-content {
+  background-color: aqua;
 }
 </style>
