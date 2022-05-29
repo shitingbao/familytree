@@ -15,6 +15,9 @@
       <Search />
     </a-tab-pane>
   </a-tabs>
+  <div class="tag">
+    <Tag />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +27,7 @@ import { Member } from "../model/member";
 import Node from "./Node.vue";
 import List from "./List.vue";
 import bus from "../libs/bus";
+import Tag from "./Tag.vue";
 import html2canvas from "html2canvas";
 
 import Search from "./Search.vue";
@@ -113,5 +117,11 @@ onMounted(() => {
 
 .tab {
   padding: 0 50px;
+}
+
+.tag {
+  position: absolute;
+  top: 2%;
+  right: 5%;
 }
 </style>
