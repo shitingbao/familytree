@@ -80,8 +80,6 @@ const dateBirth = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
 const dateMarry = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
 const dateDeath = ref<Dayjs>(dayjs("0000-01-01", "YYYY-MM-DD"));
 
-const visible = ref<boolean>(false);
-
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 },
@@ -108,8 +106,7 @@ function updateMemeber() {
     if (formState.value.parentId == 0) {
       bus.emit("reloadList");
     }
-    // formState.value.getHeader(response.data.data);
-    // console.log(" response.data response.data", response.data);
+
     emit("visible");
   });
 }
@@ -126,7 +123,6 @@ function addChild() {
   axios
     .post("http://localhost:6200/v1/member/create", formData)
     .then((response) => {
-      // formState.value.getHeader(response.data.data);
       console.log(response);
       emit("visible");
     });
@@ -140,7 +136,6 @@ function deleteMember() {
     .post("http://localhost:6200/v1/member/delete", formData)
     .then((response) => {
       console.log(response);
-      // formState.value.getHeader(response.data.data);
       emit("visible");
       // 删除根节点通知列表刷新
       if (formState.value.parentId == 0) {

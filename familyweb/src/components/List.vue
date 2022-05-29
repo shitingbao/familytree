@@ -37,7 +37,7 @@
       bordered
       :data-source="dataSource"
       :columns="columns"
-      :pagination="{ pageSize: 5 }"
+      :pagination="{ pageSize: 3 }"
     >
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'name'">
@@ -68,19 +68,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, Ref, UnwrapRef, computed, reactive } from "vue";
-import { ManOutlined, WomanOutlined } from "@ant-design/icons-vue";
+import { ref, onMounted, Ref } from "vue";
 import axios from "axios";
 import { Member } from "../model/member";
-import Edit from "./Edit.vue";
-import Node from "./Node.vue";
+
 import bus from "../libs/bus";
-import { CheckOutlined, EditOutlined } from "@ant-design/icons-vue";
-import { cloneDeep } from "lodash-es";
-import { SHOW_ALL } from "ant-design-vue/lib/vc-tree-select/utils/strategyUtil";
 
 interface DataItem {
-  memberId: string;
   name: string;
   familySimple: string;
 }
@@ -165,7 +159,6 @@ function MemberList() {
     .then((response) => {
       response.data.data.forEach((e: any) => {
         dataSource.value.push({
-          memberId: e.id,
           name: e.name,
           familySimple: e.familySimple,
         });

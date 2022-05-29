@@ -39,7 +39,7 @@ func setupInnerEngine(e *gin.Engine) {
 		g.POST("/member/delete", FamilytreeDelete)
 		g.POST("/member/list", FamilytreeList)
 		g.POST("/member/last", FamilytreeLast)
-
+		g.POST("/member/search", SearchMember)
 	}
 }
 

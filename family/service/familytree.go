@@ -25,3 +25,7 @@ func (s *Service) FamilytreeList(arg *model.Member) ([]model.Member, error) {
 func (s *Service) FamilytreeLast(arg *model.Member) ([]model.Member, error) {
 	return s.Familytree.MemberLast(arg)
 }
+
+func (s *Service) SearchMember(arg *model.Member) ([]model.Member, error) {
+	return s.Familytree.SearchMember(arg)
+}

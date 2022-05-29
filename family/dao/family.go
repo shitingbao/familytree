@@ -54,3 +54,12 @@ func (d *FamilyTreeCaseDao) MemberLast(arg *model.Member) ([]model.Member, error
 	err := db.Order("id").Scan(&list).Error
 	return list, err
 }
+
+func (d *FamilyTreeCaseDao) SearchMember(arg *model.Member) ([]model.Member, error) {
+	list := []model.Member{}
+
+	db := d.Data.DB().Table("member").
+		Where("name like ? or family_simple like ?", "%"+arg.Name+"%", "%"+arg.FamilySimple+"%")
+	err := db.Order("id").Scan(&list).Error
+	return list, err
+}

@@ -13,7 +13,7 @@ export class Member {
 	content = '';
 	honor = '';
 	familySimple = ''
-	children: Member[] = [];
+	memberChildren: Member[] = [];
 
 	initData(row: any) {
 		// console.log("rwo:", row)
@@ -46,6 +46,7 @@ export class Member {
 	}
 
 	// 从反馈的所有节点里，构建基本树结构
+	// 递归找到自己所有孩子
 	construct(root: Member, rows: any[]) {
 		var rs = rows.filter((item) => {
 			return item.parentId == root.id
@@ -55,7 +56,7 @@ export class Member {
 				// console.log("for root:", root)
 				var node = new Member()
 				node.initData(e)
-				root.children.push(node)
+				root.memberChildren.push(node)
 				this.construct(node, rows)
 			})
 		}

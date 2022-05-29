@@ -11,7 +11,7 @@
     <div class="children">
       <Node
         class="node-child"
-        v-for="(item, idx) in formState.children"
+        v-for="(item, idx) in formState.memberChildren"
         :key="idx"
         :formState="item"
       />
@@ -20,9 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, PropType } from "vue";
+import { ref, PropType } from "vue";
 import { ManOutlined, WomanOutlined } from "@ant-design/icons-vue";
-import axios from "axios";
 import { Member } from "../model/member";
 import Edit from "./Edit.vue";
 import Node from "./Node.vue";

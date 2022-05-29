@@ -1,13 +1,20 @@
 <template>
-  <a-button class="save" @click="keepPicture">保存族谱</a-button>
-  <div class="body" ref="zhupu">
-    <div class="content">
-      <List class="content-list" />
-      <div class="content-body">
-        <Node class="node" :formState="formState" />
+  <a-tabs class="tab" v-model:activeKey="activeKey">
+    <a-tab-pane key="1" tab="家族信息" force-render>
+      <a-button class="save" @click="keepPicture">保存族谱</a-button>
+      <div class="body" ref="zhupu">
+        <div class="content">
+          <List class="content-list" />
+          <div class="content-body">
+            <Node class="node" :formState="formState" />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </a-tab-pane>
+    <a-tab-pane key="2" tab="人员查询">
+      <Search />
+    </a-tab-pane>
+  </a-tabs>
 </template>
 
 <script setup lang="ts">
@@ -19,17 +26,20 @@ import List from "./List.vue";
 import bus from "../libs/bus";
 import html2canvas from "html2canvas";
 
+import Search from "./Search.vue";
+
 const { proxy }: any = getCurrentInstance();
 
 const formState = ref<Member>(new Member());
-
+const activeKey = ref("1");
 const selectLastMemberId = ref("");
+
+bus.on("reloadMember", reloadMember as any);
+
 function reloadMember(id: string = selectLastMemberId.value) {
   console.log("getMember start");
   getMember(id);
 }
-
-bus.on("reloadMember", reloadMember as any);
 
 function getMember(id: string = "") {
   formState.value = new Member();
@@ -98,5 +108,9 @@ onMounted(() => {
 }
 .content-body {
   flex: 1;
+}
+
+.tab {
+  padding: 0 50px;
 }
 </style>
