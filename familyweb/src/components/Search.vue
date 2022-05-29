@@ -56,6 +56,8 @@ const columns: TableColumnsType = [
 const memberVal = ref("");
 
 function getMember() {
+  data.value = [];
+
   loadVisible.value = true;
   const formData = new FormData();
   formData.append("name", memberVal.value);

@@ -2,11 +2,11 @@
   <div class="node">
     <div class="node-content">
       <a-button
-        :class="formState.sex == 1 ? 'btn1' : 'btn2'"
+        :class="formState.sex == '男' ? 'btn1' : 'btn2'"
         type="primary"
         @click="showModal(1)"
       >
-        <ManOutlined v-if="formState.sex === 1" />
+        <ManOutlined v-if="formState.sex === '男'" />
         <WomanOutlined v-else />
         {{ formState.name }}
       </a-button>
@@ -18,7 +18,7 @@
         type="primary"
         @click="showModal(2)"
       >
-        <ManOutlined v-if="formState.marryMember.sex === 1" />
+        <ManOutlined v-if="formState.marryMember.sex === '男'" />
         <WomanOutlined v-else />
         {{ formState.marryMember.name }}
       </a-button>

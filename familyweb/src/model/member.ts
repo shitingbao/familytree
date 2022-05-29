@@ -4,7 +4,7 @@ export class Member {
 	parentId = 0;
 	name = '';
 	path = '';
-	sex = 1;
+	sex = '';
 	dateBirth = '';
 	dateMarry = '';
 	placeBirth = '';
@@ -23,7 +23,7 @@ export class Member {
 		this.parentId = row?.parentId;
 		this.name = row?.name;
 		this.path = row?.path;
-		this.sex = row?.sex;
+		this.sex = row?.sex == 1 ? '男' : '女';
 		this.dateBirth = row?.dateBirth;
 		this.dateMarry = row?.dateMarry;
 		this.placeBirth = row?.placeBirth;
