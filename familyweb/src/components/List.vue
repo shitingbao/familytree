@@ -8,7 +8,12 @@
     >
       添加一个新家族
     </a-button>
-    <a-modal v-model:visible="visible" title="成员信息" :footer="null">
+    <a-modal
+      v-model:visible="visible"
+      title="新家族标示以及祖宗姓名"
+      width="250px"
+      :footer="null"
+    >
       <a-form :model="formState" v-bind="layout" name="nest-messages">
         <a-form-item label="姓名">
           <a-input v-model:value="formState.name" />
@@ -20,7 +25,9 @@
           <a-button class="btn" type="primary" @click="handleAdd">
             添加新家族
           </a-button>
-          <a-button type="primary" @click="cancle">取消</a-button>
+          <a-button type="primary" class="cancle" @click="cancle"
+            >取消</a-button
+          >
         </div>
       </a-form>
     </a-modal>
@@ -78,15 +85,6 @@ interface DataItem {
   familySimple: string;
 }
 
-const props = defineProps({
-  // formState: {
-  //   type: Object as PropType<Member>,
-  //   default: () => {
-  //     return new Member();
-  //   },
-  // },
-});
-
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 12 },
@@ -103,12 +101,12 @@ const visible = ref(false);
 
 const columns = [
   {
-    title: "last",
+    title: "祖宗名讳",
     dataIndex: "name",
     width: "30%",
   },
   {
-    title: "last",
+    title: "家族标示",
     dataIndex: "familySimple",
     width: "30%",
   },
@@ -184,5 +182,9 @@ onMounted(() => {
 <style scoped>
 .right {
   padding-right: 10px;
+}
+
+.cancle {
+  margin-left: 10px;
 }
 </style>
