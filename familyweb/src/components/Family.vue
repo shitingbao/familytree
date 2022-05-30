@@ -6,9 +6,6 @@
         <div class="content">
           <List class="content-list" />
           <div class="content-body" ref="zhupu">
-            <div class="tag">
-              <Tag />
-            </div>
             <Node class="node" :formState="formState" />
           </div>
         </div>
@@ -18,6 +15,9 @@
       <Search />
     </a-tab-pane>
   </a-tabs>
+  <div class="tag">
+    <Tag />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -121,7 +121,7 @@ onMounted(() => {
 
 .tag {
   position: absolute;
-  top: 10%;
+  top: 2%;
   right: 5%;
 }
 </style>
