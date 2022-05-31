@@ -3,7 +3,7 @@ env = "dev"
 
 #数据库配置
 [db]
-    host = "host=localhost user=root password=411569 dbname=familytree port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    host = "host=localhost user=postgres password=411569 dbname=familytree port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 
 #http服务配置
 [http_svc]
