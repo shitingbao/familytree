@@ -27,7 +27,7 @@ func main() {
 		s := <-sig
 		log.Printf("service get a signal %s", s.String())
 		switch s {
-		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGSTOP, syscall.SIGINT:
+		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			shutdown(svr)
 			return
 		case syscall.SIGHUP:
